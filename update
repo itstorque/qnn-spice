@@ -1,0 +1,40 @@
+case $(uname -s) in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+echo Updating SPICE models for $machine
+
+# if there are ever nested submodules, add --recursive to 
+# this and other relevant commands
+git submodule update --init
+
+# git pull and git submodule update --remote
+git pull --recurse-submodules
+
+# cool command not using it now, but helpful for future
+# git submodule foreach 'command to run on every submodule'
+
+case $machine in
+
+  Mac)
+    LTSPICE_LIB_PATH="~/Library/Application\ Support/LTspice/lib"
+    ;;
+
+  Linux)
+    LTSPICE_LIB_PATH=""
+    echo "LINUX NOT SETUP YET"
+    ;;
+
+  CYGWIN | MINGW)
+    echo "WINDOWS NOT SETUP YET"
+    ;;
+
+  *)
+    echo unknown type $machine
+    ;;
+esac
+
+git submodule foreach "python3 ../update_helper.py --update-symlinks $LTSPICE_LIB_PATH"

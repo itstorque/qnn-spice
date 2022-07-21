@@ -1,0 +1,3 @@
+[submodule "SPICE_models"]
+	path = SPICE_models
+	url = https://github.com/qnngroup/SPICE_models
