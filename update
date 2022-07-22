@@ -14,7 +14,7 @@ if [ $# -eq 0 ]
     case $machine in
 
     Mac)
-        LTSPICE_LIB_PATH="~/Library/Application\ Support/LTspice/lib"
+        LTSPICE_LIB_PATH=$HOME'/Library/Application Support/LTspice/lib'
         ;;
 
     Linux)
@@ -58,17 +58,18 @@ else
 
 fi
 
+# prep the SPICE directory by clearing previous installations
+rm -rf "${LTSPICE_LIB_PATH}/sym/qnn-spice"
+rm -rf "${LTSPICE_LIB_PATH}/sub/qnn-spice"
 
+# if there are ever nested submodules, add --recursive to 
+# this and other relevant commands
+git submodule update --init
 
-# # if there are ever nested submodules, add --recursive to 
-# # this and other relevant commands
-# git submodule update --init
+# git pull and git submodule update --remote
+git pull --recurse-submodules
 
-# # git pull and git submodule update --remote
-# git pull --recurse-submodules
-
-# cool command not using it now, but helpful for future
-# git submodule foreach 'command to run on every submodule'
+echo
 
 # runs the update_helper python script on every subdirectory
-git submodule foreach "python3 ../update_helper.py --update-symlinks $LTSPICE_LIB_PATH"
+git submodule foreach python3 ../update_helper.py --update-symlinks "${LTSPICE_LIB_PATH}"

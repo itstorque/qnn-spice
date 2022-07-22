@@ -29,7 +29,7 @@ The component library for the following `models.md` config:
 
 ## Usage
 
-If you are using this repo for the first time, [go to Installation](##Installation). 
+If you are using this repo for the first time, [go to Installation](#Installation). 
 
 #### How to sync repos and download the latest models?
 

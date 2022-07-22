@@ -13,11 +13,8 @@ if __name__=="__main__":
         
         LTSPICE_LIB_PATH = sys.argv[2]
         
-        shutil.rmtree(LTSPICE_LIB_PATH+"/sym/qnn-spice")
-        shutil.rmtree(LTSPICE_LIB_PATH+"/sub/qnn-spice")
-        
-        os.mkdir(LTSPICE_LIB_PATH+"/sym/qnn-spice")
-        os.mkdir(LTSPICE_LIB_PATH+"/sub/qnn-spice")
+        os.makedirs(LTSPICE_LIB_PATH+"/sym/qnn-spice", exist_ok=True)
+        os.makedirs(LTSPICE_LIB_PATH+"/sub/qnn-spice", exist_ok=True)
         
         files_asy = []
         files_lib = []
@@ -44,6 +41,7 @@ if __name__=="__main__":
                     path = line.split("- ")[1].split(":")[0].rstrip().lstrip()
                 else:
                     name = line.split("- ")[1].rstrip().lstrip()
+                    path = name
             else:
                 name = "."
                 path = line.split("- ")[1].lstrip().rstrip()
@@ -75,18 +73,21 @@ if __name__=="__main__":
                                                                     (''.join(dest_dir)).replace("./", ""),
                                                                     name
                                                                     ))
-                
-        print(files_asy)
-        print(files_lib)
         
         for src, dest, dest_filename in files_asy:
             
             os.makedirs(LTSPICE_LIB_PATH + "/sym/qnn-spice/" + dest, exist_ok=True)
 
             os.symlink(os.getcwd() + "/" + src, LTSPICE_LIB_PATH + "/sym/qnn-spice/" + dest + dest_filename)
+            
+            print("    ADDED:", dest_filename)
         
         for src, dest, dest_filename in files_lib:
             
             os.makedirs(LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest, exist_ok=True)
 
             os.symlink(os.getcwd() + "/" + src, LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename)
+            
+            print(os.getcwd() + "/" + src, LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename)
+            
+            print("    ADDED:", dest_filename)
