@@ -78,3 +78,8 @@ everyone has these changes!
 - `chmod +x update`
 - git submodule update
 - check update script on windows, might need a separate file...
+
+## Troubleshooting
+
+- On windows, if the update scripts gives you an `OSError` regarding permissions, then
+relaunch git bash as an administrator (Run Program as Administrator).
