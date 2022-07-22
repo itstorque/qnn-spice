@@ -38,7 +38,12 @@ if __name__=="__main__":
                 name = line.split("- ")[1].split(":")[1].lstrip().rstrip()
                 path = line.split("- ")[1].split(":")[0].lstrip().rstrip()
             elif is_file(line):
-                name = line.split("- ")[1].split(":")[-1].rstrip().lstrip()
+                
+                if ":" in line:
+                    name = line.split("- ")[1].split(":")[1].rstrip().lstrip()
+                    path = line.split("- ")[1].split(":")[0].rstrip().lstrip()
+                else:
+                    name = line.split("- ")[1].rstrip().lstrip()
             else:
                 name = "."
                 path = line.split("- ")[1].lstrip().rstrip()
@@ -62,11 +67,11 @@ if __name__=="__main__":
                     dest_dir.append(name+"/")
                     last_dir_size.append(indents)
                 
-            if ".asy" in name: files_asy.append((''.join(last_dir) + name, 
+            if ".asy" in name: files_asy.append((''.join(last_dir) + path, 
                                                  (''.join(dest_dir)).replace("./", ""),
                                                  name
                                                  ))
-            if (".lib" in name or ".asc" in name): files_lib.append((''.join(last_dir) + name, 
+            if (".lib" in name or ".asc" in name): files_lib.append((''.join(last_dir) + path, 
                                                                     (''.join(dest_dir)).replace("./", ""),
                                                                     name
                                                                     ))
