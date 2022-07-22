@@ -1,6 +1,6 @@
 [submodule "SPICE_models"]
 	path = SPICE_models
-	url = https://github.com/qnngroup/SPICE_models
+	url = git@github.com:qnngroup/SPICE_models.git
 [submodule "snspd-spice"]
 	path = snspd-spice
 	url = git@github.com:qnngroup/snspd-spice.git
