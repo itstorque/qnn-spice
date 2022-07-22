@@ -1,40 +1,74 @@
-case $(uname -s) in
-    Linux*)     machine=Linux;;
-    Darwin*)    machine=Mac;;
-    CYGWIN*)    machine=Cygwin;;
-    MINGW*)     machine=MinGw;;
-    *)          machine="UNKNOWN:${unameOut}"
-esac
-echo Updating SPICE models for $machine
+if [ $# -eq 0 ]
+  then
 
-# if there are ever nested submodules, add --recursive to 
-# this and other relevant commands
-git submodule update --init
+    case $(uname -s) in
+        Linux*)     machine=Linux;;
+        Darwin*)    machine=Mac;;
+        CYGWIN*)    machine=Cygwin;;
+        MINGW*)     machine=MinGw;;
+        *)          machine="UNKNOWN:${unameOut}"
+    esac
+    echo "Updating SPICE models for $machine (you can also supply your\
+ own LTSpice models path in case this doesn't work)\n"
 
-# git pull and git submodule update --remote
-git pull --recurse-submodules
+    case $machine in
+
+    Mac)
+        LTSPICE_LIB_PATH="~/Library/Application\ Support/LTspice/lib"
+        ;;
+
+    Linux)
+        LTSPICE_LIB_PATH=""
+        echo "LINUX NOT SETUP YET\n"
+        echo "Instead of running ./update, you can run\n    $ ./update /path/to/LTspice/lib \n"
+        exit 1
+        ;;
+
+    CYGWIN | MINGW)
+        echo "WINDOWS NOT SETUP YET\n"
+        echo "Instead of running ./update, you can run\n    $ ./update /path/to/LTspice/lib \n"
+        exit 1
+        ;;
+
+    *)
+        echo unknown type $machine
+        echo "Instead of running ./update, you can run\n    $ ./update /path/to/LTspice/lib \n"
+        exit 1
+        ;;
+    esac
+
+    echo "Updating $LTSPICE_LIB_PATH\n"
+
+else 
+
+    LTSPICE_LIB_PATH=$1
+
+    echo "Updating $LTSPICE_LIB_PATH\n"
+
+    if [ ! -d ${LTSPICE_LIB_PATH}/sym ]
+    then
+
+        # the directory $LTSPICE_LIB_PATH/sym doesn't exits which probably means
+        # the wrong path was suppploed.
+
+        echo The wrong path was supplied. Make sure you gave the path to the /lib library
+        exit 1
+
+    fi
+
+fi
+
+
+
+# # if there are ever nested submodules, add --recursive to 
+# # this and other relevant commands
+# git submodule update --init
+
+# # git pull and git submodule update --remote
+# git pull --recurse-submodules
 
 # cool command not using it now, but helpful for future
 # git submodule foreach 'command to run on every submodule'
 
-case $machine in
-
-  Mac)
-    LTSPICE_LIB_PATH="~/Library/Application\ Support/LTspice/lib"
-    ;;
-
-  Linux)
-    LTSPICE_LIB_PATH=""
-    echo "LINUX NOT SETUP YET"
-    ;;
-
-  CYGWIN | MINGW)
-    echo "WINDOWS NOT SETUP YET"
-    ;;
-
-  *)
-    echo unknown type $machine
-    ;;
-esac
-
+# runs the update_helper python script on every subdirectory
 git submodule foreach "python3 ../update_helper.py --update-symlinks $LTSPICE_LIB_PATH"
