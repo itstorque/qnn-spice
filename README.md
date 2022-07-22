@@ -40,19 +40,36 @@ access all the models as in the Example.
 
 #### How to push changes to a model?
 
-Just like how you would push to a regular github repo,
-go into the repo with your edited file, for example,
-snspd-spice and, as you would normally do, run 
+Just like how you would push to a regular github repo, go into the repo with your 
+edited file as you would normally do and commit and push your changes, then go up 
+one directory to the `qnn-spice` repo and commit and push these changes too.
+For example, `snspd-spice` is a repo that houses a file edited, so we can run
+the following:
 ``` bash
 $ pwd # should return .../snspd-spice
 $ git add .
 $ git commit -m "Updating model"
 $ git push
+$ cd ..
+$ pwd # should return .../qnn-spice
+$ git add .
+$ git commit -m "Updating snspd-spice head"
+$ git push
 ```
 
 #### How to add a new repo?
 
-put git submodule explanation
+In the repo you want to add, create a new file titled `models.md` in the base of the 
+repository. This file helps locate models in your repository and present them in a 
+helpful way to LTSpice. See [How to write a model file](#How_to_write_a_model_file).
+Push these changes to the repository.
+
+Now in qnn-spice, you can simply run `git submodule add [repo-you-want-to-add]`, then
+running `./update` will get the latest changes for this repo and sync them with your 
+local LTSpice model libraries. Then commit and push the changes to `qnn-spice` so that
+everyone has these changes!
+
+## How to write a model file
 
 ## Installation
 
