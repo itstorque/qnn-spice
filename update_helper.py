@@ -85,9 +85,16 @@ if __name__=="__main__":
         for src, dest, dest_filename in files_lib:
             
             os.makedirs(LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest, exist_ok=True)
-
-            os.symlink(os.getcwd() + "/" + src, LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename)
             
-            os.symlink(LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename, LTSPICE_LIB_PATH + "/sub/" + dest_filename.split("/")[-1])
+            inner_symlink = LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename
+
+            os.symlink(os.getcwd() + "/" + src, inner_symlink)
+            
+            outer_symlink = LTSPICE_LIB_PATH + "/sub/" + dest_filename.split("/")[-1]
+            
+            if os.path.exists(outer_symlink):
+                os.unlink(outer_symlink)
+                
+            os.symlink(inner_symlink, outer_symlink)
             
             print("    ADDED:", dest_filename)

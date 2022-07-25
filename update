@@ -9,7 +9,7 @@ if [ $# -eq 0 ]
         *)          machine="UNKNOWN:${unameOut}"
     esac
     echo "Updating SPICE models for $machine (you can also supply your\
- own LTSpice models path in case this doesn't work)\n"
+ own LTSpice lib path in case this script fails)\n"
 
     case $machine in
 
@@ -18,10 +18,7 @@ if [ $# -eq 0 ]
         ;;
 
     Linux)
-        LTSPICE_LIB_PATH=""
-        echo "LINUX NOT SETUP YET\n"
-        echo "Instead of running ./update, you can run\n    $ ./update /path/to/LTspice/lib \n"
-        exit 1
+        LTSPICE_LIB_PATH="~/Documents/LTspiceXVII/lib"
         ;;
 
     CYGWIN | MINGW)
@@ -56,6 +53,14 @@ else
 
     fi
 
+fi
+
+if [[ ! -d ${LTSPICE_LIB_PATH}/sym ]]
+then
+    echo The wrong path was supplied. Try running the commands
+    echo "    ./update [path to ltspice lib folder]"
+    echo and seeing if that works.
+    exit 1
 fi
 
 # prep the SPICE directory by clearing previous installations
