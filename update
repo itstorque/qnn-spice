@@ -18,7 +18,7 @@ if [ $# -eq 0 ]
         ;;
 
     Linux)
-        LTSPICE_LIB_PATH="~/Documents/LTspiceXVII/lib"
+        LTSPICE_LIB_PATH="$HOME/Documents/LTspiceXVII/lib"
         ;;
 
     CYGWIN | MINGW)
