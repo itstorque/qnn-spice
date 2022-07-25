@@ -88,6 +88,6 @@ if __name__=="__main__":
 
             os.symlink(os.getcwd() + "/" + src, LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename)
             
-            print(os.getcwd() + "/" + src, LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename)
+            os.symlink(LTSPICE_LIB_PATH + "/sub/qnn-spice/" + dest + dest_filename, LTSPICE_LIB_PATH + "/sub/" + dest_filename.split("/")[-1])
             
             print("    ADDED:", dest_filename)
