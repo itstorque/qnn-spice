@@ -4,3 +4,6 @@
 [submodule "snspd-spice"]
 	path = snspd-spice
 	url = git@github.com:qnngroup/snspd-spice.git
+[submodule "equipment-spice"]
+	path = equipment-spice
+	url = git@github.com:qnngroup/equipment-spice.git
