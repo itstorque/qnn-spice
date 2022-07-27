@@ -5,6 +5,10 @@ This repository sync's all of the SPICE models we use with their respective remo
 and updates the LTSpice internal directory to add a new `[qnn-spice]` folder into
 LTSpice's component library that sorts the components.
 
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [Troubleshooting](#Troubleshooting)
+
 ## Example
 
 <center><img src="example.png" width="350px"/></center>
@@ -73,13 +77,19 @@ everyone has these changes!
 
 ## Installation
 
-### install notes
-
-- `chmod +x update`
-- git submodule update
-- check update script on windows, might need a separate file...
+You should be able to install this repository by cloning it 
+(`git clone git@github.com:tareqdandachi/qnn-spice.git`) and then running the
+`update` script using `./update` (or `./update [PATH-TO-LTSPICE-LIB-FILE]`) when
+in the qnn-spice directory.
 
 ## Troubleshooting
 
 - On windows, if the update scripts gives you an `OSError` regarding permissions, then
 relaunch git bash as an administrator (Run Program as Administrator).
+- If you get a permission error saying you can't run `./update`, you might need to run
+`chmod +x update` in the `qnn-spice` directory to give the update script execution
+permissions.
+- If you experience errors setting up the submodules, try running `git submodule init`
+`git submodule update` and if this doesn't work, proceed to clone the repositories in
+a separate directory to make sure your git setup has the correct credentials.
+- 
