@@ -67,15 +67,12 @@ fi
 rm -rf "${LTSPICE_LIB_PATH}/sym/qnn-spice"
 rm -rf "${LTSPICE_LIB_PATH}/sub/qnn-spice"
 
-git submodule init
-git submodule update
-
 # if there are ever nested submodules, add --recursive to 
 # this and other relevant commands
 git submodule update --init
 
 # git pull and git submodule update --remote
-git pull --recurse-submodules
+git submodule foreach "git pull || true"
 
 echo
 
