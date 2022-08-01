@@ -31,50 +31,55 @@ if __name__=="__main__":
                 
                 indents = (len(line) - len(line.lstrip()))
                 
-                loc = line.split("- ")[1].split(":")[0]
+                try:
+                    loc = line.split("- ")[1].split(":")[0]
                 
-                if ":" in line:
-                    name = line.split("- ")[1].split(":")[1].lstrip().rstrip()
-                    path = line.split("- ")[1].split(":")[0].lstrip().rstrip()
-                elif is_file(line):
-                    
                     if ":" in line:
-                        name = line.split("- ")[1].split(":")[1].rstrip().lstrip()
-                        path = line.split("- ")[1].split(":")[0].rstrip().lstrip()
+                        name = line.split("- ")[1].split(":")[1].lstrip().rstrip()
+                        path = line.split("- ")[1].split(":")[0].lstrip().rstrip()
+                    elif is_file(line):
+                        
+                        if ":" in line:
+                            name = line.split("- ")[1].split(":")[1].rstrip().lstrip()
+                            path = line.split("- ")[1].split(":")[0].rstrip().lstrip()
+                        else:
+                            name = line.split("- ")[1].rstrip().lstrip()
+                            path = name
                     else:
-                        name = line.split("- ")[1].rstrip().lstrip()
-                        path = name
-                else:
-                    name = "."
-                    path = line.split("- ")[1].lstrip().rstrip()
-                
-                if not is_file(name): 
+                        name = "."
+                        path = line.split("- ")[1].lstrip().rstrip()
                     
-                    while indents < last_dir_size[-1]:
+                    if not is_file(name): 
                         
-                        last_dir = last_dir[:-1]
-                        dest_dir = dest_dir[:-1]
-                        last_dir_size = last_dir_size[:-1]
+                        while indents < last_dir_size[-1]:
+                            
+                            last_dir = last_dir[:-1]
+                            dest_dir = dest_dir[:-1]
+                            last_dir_size = last_dir_size[:-1]
+                        
+                        if indents == last_dir_size[-1]:
+                            
+                            last_dir[-1] = path+"/"
+                            dest_dir[-1] = name+"/"
+                            
+                        else: # indents > prev_indents
+                            
+                            last_dir.append(path+"/")
+                            dest_dir.append(name+"/")
+                            last_dir_size.append(indents)
+                        
+                    if ".asy" in name: files_asy.append((''.join(last_dir) + path, 
+                                                        (''.join(dest_dir)).replace("./", ""),
+                                                        name
+                                                        ))
+                    if (".lib" in name or ".asc" in name): files_lib.append((''.join(last_dir) + path, 
+                                                                            (''.join(dest_dir)).replace("./", ""),
+                                                                            name
+                                                                            ))
                     
-                    if indents == last_dir_size[-1]:
-                        
-                        last_dir[-1] = path+"/"
-                        dest_dir[-1] = name+"/"
-                        
-                    else: # indents > prev_indents
-                        
-                        last_dir.append(path+"/")
-                        dest_dir.append(name+"/")
-                        last_dir_size.append(indents)
+                except:
                     
-                if ".asy" in name: files_asy.append((''.join(last_dir) + path, 
-                                                    (''.join(dest_dir)).replace("./", ""),
-                                                    name
-                                                    ))
-                if (".lib" in name or ".asc" in name): files_lib.append((''.join(last_dir) + path, 
-                                                                        (''.join(dest_dir)).replace("./", ""),
-                                                                        name
-                                                                        ))
+                    print("skipping line:", line)
             
             for src, dest, dest_filename in files_asy:
                 
